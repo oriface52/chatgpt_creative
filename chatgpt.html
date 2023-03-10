@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ad Creative Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@openai/api@0.6.1/dist/openai-api.min.js"></script>
+</head>
+<body>
+    <div>
+        <label for="prompt">Enter a prompt:</label>
+        <input type="text" id="prompt">
+        <button onclick="generateAdText()">Generate</button>
+    </div>
+    <div id="output"></div>
+    <script>
+        const API_KEY = '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';
+        const ENGINE_ID = 'text-davinci-002';
+        const openai = new OpenAI(API_KEY);
+
+        function generateAdText() {
+            const prompt = document.getElementById('prompt').value;
+            const request = {
+                engine: ENGINE_ID,
+                prompt: prompt,
+                max_tokens: 60,
+                n: 1,
+                stop: null,
+                temperature: 0.5,
+            };
+            openai.completions.create(request)
+                .then(response => {
+                    const message = response.choices[0].text.trim();
+                    document.getElementById('output').innerHTML = message;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    </script>
+</body>
+</html>
